@@ -1,0 +1,206 @@
+.spis{
+    padding: 30px;
+    margin-top: 15px;
+    width: 1050px;
+    background-color: gray;
+    display: flex;
+    overflow: hidden;
+    overflow-x: auto;
+}
+.mes{
+    display: flex;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+.lef{
+    text-align: left;
+    width: 300px;
+    border-radius: 20px;
+    padding: 20px;
+    background: white;
+}
+.pep{
+    margin-top: 30px;
+    font-size: 21px;
+    font-family: "Open Sans";
+    width: 680px;
+    height: 60px;
+    color: #6E7880;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.hus{
+    height: 60px;
+    -webkit-line-clamp: 3; /* Число отображаемых строк */
+    display: -webkit-box; /* Включаем флексбоксы */
+    -webkit-box-orient: vertical; /* Вертикальная ориентация */
+    overflow: hidden;
+    
+    
+    text-overflow: ellipsis;
+    font-family: "Montserrat";
+    padding: 0;
+    margin: 0;
+    font-size: 36px;
+    color: #000000;
+}
+.button{
+    margin-top: 30px;
+    background: #45459D;
+    color: #FFFFFF;
+    border: 0;
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px 0px;
+    font-size: 21px;
+    font-family: "Open Sans";
+}
+.rig{
+    text-align: center;
+    margin: 0px 20px;
+    border-radius: 20px;
+    padding: 10px;
+    background-size: cover;
+    background-image: url("../images/send.jpg");
+    background-repeat: no-repeat;
+    
+    z-index: -10;
+}
+.gree{
+    z-index: 10;
+    color: #000000;
+    padding: 10px;
+    width: 350px;
+    border-radius: 20px;
+    background: #FFFFFF66;
+}
+.pereh{
+    padding: 0px 10px;
+}
+.flex{
+    display: flex;
+}
+.top{
+    margin: 30px 0px;
+}
+.bu{
+    padding: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #2D4EF8;
+    border: 0px;
+    border-radius: 10px;
+    transition: 1s;
+    
+}
+.per{
+    padding: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #2D4EF8;
+    border: 0px;
+    border-radius: 10px;
+    transition: 1s;
+    border-color: rgba(159, 164, 168, 0.8);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6);
+    outline: 0 none;
+}
+.lec{
+    border: 0px;
+    color: #6E7880;
+    font-size: 90px;
+    background: #ECF7FD;
+    transition: 1s;
+}
+.lec:hover, .lec:focus{
+    color: rgba(82, 168, 236, 0.8);
+    font-size: 38;
+}
+.button:hover{
+    cursor: pointer;
+}
+#toc{
+    margin-right: 20px;
+}
+
+
+
+
+.popup5{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.6s ease 0s;
+}
+.popup5:target{
+    opacity: 1;
+    visibility: visible;
+}
+.popup__body5{
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+    transition: all 0.8s ease 0s;
+}
+.popup__content5{
+    background-color: white;
+    color: black;
+    width: 800px;
+    padding: 30px;
+    position: relative;
+}
+.popup__close5{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+}
+.popup__title5{
+    font-size: 40px;
+}
+.popup__text5{}
+.popup__text5 input{
+    margin: 10px;
+    height: 40px;
+    padding: 5px;
+}
+.popup__but5 button{
+    height: 40px;
+    border: 0px;
+    font-size: 20px;
+    width: 180px;
+}
+.popup__but5 button:hover{
+    background-color: grey;
+    cursor: pointer;
+}
+.popup__area5{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.popup__add5{
+    margin-top: 40px;
+}
+.popup__add5 a{
+    border: 1px solid black;
+    padding: 10px;
+    font-size: 40px;
+    text-decoration: none;
+    color: black;
+}
+.popup__add5 a:hover{
+    color: rebeccapurple;
+}
