@@ -1,3 +1,5 @@
+// подключение модулей
+// Создание сервера
 const express = require('express')
 const http = require('http')
 const { Server } = require('socket.io')
@@ -12,7 +14,7 @@ app.use(express.json())
 app.use(cors( { origin: "*" }))
 app.use(route)
 
-
+// подключение к бд
 const db = require('./db.js')
 const { log, Console } = require('console')
 
@@ -29,34 +31,36 @@ stat = {pro:[]}
 
 const index = 1
 
+// Тестовая функция для получение всех элементов из бд по определенному id
 // [{name: []}, {namestart:[]}, {opis:[]}, {price:[]}, {crokvip:[]},{statusdata:[]},{trebov:[],}]
 
-async function test(req, res){
+// async function test(req, res){
    
-    const name = await db.query(`SELECT * FROM public.startaps WHERE id = ${index}`)
-    res = name.rows
-    res.forEach(function(ex) {
+//     const name = await db.query(`SELECT * FROM public.startaps WHERE id = ${index}`)
+//     res = name.rows
+//     res.forEach(function(ex) {
 
-        for (var i = 0; i < stat.length; i++) {
-            delete obj[stat[i]];
-        }
+//         for (var i = 0; i < stat.length; i++) {
+//             delete obj[stat[i]];
+//         }
 
-        var data = {id: [],name: [], namestart:[], opis:[], price:[], crokvip:[],statusdata:[],trebov:[], url: []}
-        data.id.push(ex.id)
-        data.name.push(ex.namekomp)
-        data.namestart.push(ex.namestart)
-        data.opis.push(ex.opisanie)
-        data.price.push(ex.price)
-        data.crokvip.push(ex.crokvip)
-        data.statusdata.push(ex.statusdata)
-        data.trebov.push(ex.trebovaniya)
-        stas.pro.push(data)
-        data = {}
-        console.log(stas)
-        console.log("aaaa");  
-    });
-}
+//         var data = {id: [],name: [], namestart:[], opis:[], price:[], crokvip:[],statusdata:[],trebov:[], url: []}
+//         data.id.push(ex.id)
+//         data.name.push(ex.namekomp)
+//         data.namestart.push(ex.namestart)
+//         data.opis.push(ex.opisanie)
+//         data.price.push(ex.price)
+//         data.crokvip.push(ex.crokvip)
+//         data.statusdata.push(ex.statusdata)
+//         data.trebov.push(ex.trebovaniya)
+//         stas.pro.push(data)
+//         data = {}
+//         console.log(stas)
+//         console.log("aaaa");  
+//     });
+// }
 
+// функция для получение всех элементов из бд отсортерованые в порядке возрастания
 async function test2(req, res){
     const name = await db.query('SELECT * FROM public.startaps ORDER BY id ASC ')
     res = name.rows
@@ -83,6 +87,8 @@ async function test2(req, res){
     });
     
 }
+
+// функция для добавления элемента в таблицу из бд
 async function addFunc(pars){
     name_title = pars.name_title
     description = pars.description
@@ -94,25 +100,26 @@ async function addFunc(pars){
     const name = await db.query(`INSERT INTO startaps (namestart, opisanie, trebovaniya, nameKomp, statusData, crokVip, price, open) values('${name_title}', '${description}', '${name_treb}', '${name_komp}', '07.08.2024-2025', '${sroki}', '${price}', true)`)
     test2() 
 }
-
+// функция для удаления элемента в таблице из бд
 async function delFunc(pars){
     id = parseInt(pars.del_id)
     const name = await db.query(`DELETE FROM startaps WHERE id='${id}'`)
     test2() 
 }
 
+// функция для скрытия элемента из сайта
 async function hideFunc(pars){
     id = parseInt(pars.hide_id)
     const name = await db.query(`UPDATE startaps SET open = 'false' WHERE id='${id}'`)
     test2() 
 }  
-
+// функция для открытия элемента на сайте
 async function openFunc(pars){
     id = parseInt(pars.open_id)
     const name = await db.query(`UPDATE startaps SET open = 'true' WHERE id='${id}'`)
     test2() 
 }  
-
+// функция для редактирования элемента в таблице из бд
 async function redactFunc(pars){
     id = parseInt(pars.id)
     
@@ -179,12 +186,14 @@ async function redactFunc(pars){
     
 }
 
+// как только запускаем сервер выгружаем данные из бд на него 
 test2() 
  
+// функции для клиент-серверной связи
 io.on('connection', (socket)=>{
     
     
-
+    // при заходе на стр отпраляет данные на сервер
     socket.emit('join', stat);
     socket.on('confirmation', () => { 
         
@@ -200,21 +209,21 @@ io.on('connection', (socket)=>{
         console.log(stas);
         socket.emit('gg', stas);
     });
-
+    // при нажатии на кнопку отправляеться запрос на сервер на добавления данных в бд
     socket.on('add', ({ values })=>{
         pars = values
         console.log(pars)
         addFunc(pars)
 
     })
-
+    // запрос на сервер на редактирования данных в бд
     socket.on('redact', ({ values })=>{
         pars = values
         console.log(pars)
         redactFunc(pars)
 
     })
-
+    // запрос на сервер на удаления данных из бд
     socket.on('del', ({ values })=>{
         pars = values
         console.log(pars)
@@ -235,12 +244,13 @@ io.on('connection', (socket)=>{
         openFunc(pars)
 
     })
-
+    // как только пользоатель покидает страницу оповещения на сервер
     io.on('disconnect', ()=>{
         console.log("Disconnect")
     })
 })
 
+// на каком порту будет сервер
 server.listen(5000, ()=>{
     console.log('Start server')
 })

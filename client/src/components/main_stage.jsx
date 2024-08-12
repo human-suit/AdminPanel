@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 
 import io from 'socket.io-client'
 
-import Messages from './messages'
+import Bloks_startap from './bloks_startap'
 
 // import header from './'
 
@@ -127,8 +127,8 @@ const Main = () =>{
                 <div>
                     <div className={styles.right}>
                         <div>
-                            <Messages value={val}  >
-                            </Messages>
+                            <Bloks_startap value={val}  >
+                            </Bloks_startap>
                         </div>
                     </div>
                     

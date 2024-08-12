@@ -1,0 +1,22 @@
+CREATE DATABASE date_startaps;
+USE date_startaps;
+CREATE TABLE Startaps(
+	id serial primary key,
+    nameStart VARCHAR(255) NOT NULL,
+	opisanie VARCHAR(10000) NOT NULL,
+	trebovaniya VARCHAR(10000) NOT NULL,
+	nameKomp VARCHAR(255) NOT NULL,
+    statusData VARCHAR(255) NOT NULL,
+	crokVip INT NOT NULL,
+    price INT NOT NULL,
+    open BOOLEAN
+);
+
+
+
+posgresql
+"C:\Program Files\PostgreSQL\16\bin\psql" -U postgres -f bd.sql
+
+psql -U username dbname -f filename.sql
+
+psql -U postgres bd -f bd.sql
