@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import styles from '../styles/module.css'
+import styles from '../styles/main.module.css'
+import {Link, useLocation, useNavigate} from 'react-router-dom'
 
 import io from 'socket.io-client'
-import {Link, useLocation, useNavigate} from 'react-router-dom'
 
 const socket = io.connect('http://localhost:5000')
 
@@ -16,14 +16,15 @@ const FIELDS = {
     Price: "price",
     Del_id: "del_id",
     Hide_id: "hide_id",
+    Url_str: "url_str",
     Open_id: "open_id"
 }
 
-const Message = ({ value }) =>{
+const Bloks = ({ value }) =>{
 
-    const { ID, Name_title, Description, Name_treb, Name_komp, Sroki, Price, Del_id, Hide_id, Open_id } = FIELDS
+    const { ID, Name_title, Description, Name_treb, Name_komp, Sroki, Price, Del_id, Hide_id, Url_str, Open_id } = FIELDS
     const { search } = useLocation()
-    const [values, setValues] = useState({[ID]: "", [Name_title]: "",[Description]: "",[Name_treb]: "",[Name_komp]: "",[Sroki]: "",[Price]: "", [Del_id]: "", [Hide_id]: "", [Open_id]: ""});
+    const [values, setValues] = useState({[ID]: "", [Name_title]: "",[Description]: "",[Name_treb]: "",[Name_komp]: "",[Sroki]: "",[Price]: "", [Del_id]: "", [Hide_id]: "", [Url_str]: "", [Open_id]: ""});
     const [, setVal] = useState("")
 
     const dats = []
@@ -52,6 +53,9 @@ const Message = ({ value }) =>{
     const handleChange6 = ({ target: {value, }}) =>{
         setValues({...values, [Price]: value})
     }
+    const handleChange7 = ({ target: {value, }}) =>{
+        setValues({...values, [Url_str]: value})
+    }
 
     var id = 0
    
@@ -67,6 +71,12 @@ const Message = ({ value }) =>{
             setState(data)
             console.log(data)
             socket.emit('confirmation')
+         });
+         
+
+         socket.on('error', (data) => {  
+            alert(data)
+            console.log("Error")
          });
          
          setTimeout(() => {
@@ -295,7 +305,7 @@ const Message = ({ value }) =>{
                                 {post.opis}
                             </p>
                             <Link 
-                                to={`/startap`}
+                                to={`/stage_startap`}
                                 state = {{ from: post.id }} 
                                 
                             >
@@ -363,7 +373,7 @@ const Message = ({ value }) =>{
                                 {post.opis}
                             </p>
                             <Link 
-                                to={`/startap`}
+                                to={`/stage_startap`}
                                 state = {{ from: post.id }} 
                                 
                             >
@@ -414,6 +424,7 @@ const Message = ({ value }) =>{
                                 <input  type="text" value={values[Name_komp]} onChange={handleChange4} autoComplete="off" name="name_komp" placeholder="Наименовании компании" required />
                                 <input  type="number" value={values[Sroki]} onChange={handleChange5} autoComplete="off" name="sroki" placeholder="Срок выполнения" required />
                                 <input  type="number" value={values[Price]} onChange={handleChange6} autoComplete="off" name="price" placeholder="Стоимость" required />
+                                <input  type="text" value={values[Url_str]} onChange={handleChange7} autoComplete="off" name="url_str" placeholder="Ссылка" required />
                             </div>
                             <div className={styles.popup__but5}>
                                 <button 
@@ -437,4 +448,4 @@ const Message = ({ value }) =>{
     
 }
 
-export default Message
+export default Bloks

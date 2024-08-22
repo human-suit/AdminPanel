@@ -9,6 +9,7 @@ CREATE TABLE Startaps(
     statusData VARCHAR(255) NOT NULL,
 	crokVip INT NOT NULL,
     price INT NOT NULL,
+	url VARCHAR(255) NULL,
     open BOOLEAN
 );
 

@@ -8,7 +8,6 @@ const cors = require('cors')
 const app = express();
 
 const route = require('./route')
-const { addUser } = require('./users')
 
 app.use(express.json())
 app.use(cors( { origin: "*" }))
@@ -16,7 +15,9 @@ app.use(route)
 
 // подключение к бд
 const db = require('./db.js')
-const { log, Console } = require('console')
+const { log, Console } = require('console');
+const { url } = require('inspector');
+const e = require('express');
 
 const server = http.createServer(app)
 
@@ -82,7 +83,7 @@ async function test2(req, res){
         data.open.push(ex.open)
         stat.pro.push(data)
         data = {}
-        console.log(stat)
+        // console.log(stat)
         
     });
     
@@ -90,37 +91,102 @@ async function test2(req, res){
 
 // функция для добавления элемента в таблицу из бд
 async function addFunc(pars){
+    
     name_title = pars.name_title
     description = pars.description
     name_treb = pars.name_treb
     name_komp = pars.name_komp
     sroki = parseInt(pars.sroki)
     price = parseInt(pars.price)
+    url_str = pars.url_str
     // console.log(sroki)
-    const name = await db.query(`INSERT INTO startaps (namestart, opisanie, trebovaniya, nameKomp, statusData, crokVip, price, open) values('${name_title}', '${description}', '${name_treb}', '${name_komp}', '07.08.2024-2025', '${sroki}', '${price}', true)`)
+    try {
+    let name2 = await db.query('SELECT id FROM public.startaps ORDER BY id ASC ')
+    res = name2.rows
+    let mas = []
+    res.forEach(function(ex) {
+        mas.push(ex.id)
+    });
+
+    kol = 1
+    let coun = mas.length;
+    for (let i = 0; i < coun; i++){
+    for (let value of mas){
+        if(kol==value){
+            kol=kol+1
+            break
+        } else{
+            kol = kol
+            continue
+        }
+    }
+    }
+
+    } catch(error) {
+
+        // если нет ошибок игнорируеться
+        io.on('connection', (socket)=>{
+            socket.emit('Error', "Ошибка 002");
+        })
+        console.log("Error")
+    }   
+    try { 
+        const name = await db.query(`INSERT INTO startaps (id, namestart, opisanie, trebovaniya, nameKomp, statusData, crokVip, price, url, open) values('${kol}', '${name_title}', '${description}', '${name_treb}', '${name_komp}', '07.08.2024-2025', '${sroki}', '${price}', '${url_str}', 'true')`)
+    } catch(error) {
+
+        // если нет ошибок игнорируеться
+        io.on('connection', (socket)=>{
+            // socket.emit('Error', error.message);
+            socket.emit('Error', "Ошибка 001 - запоните все поля!");
+        })
+        console.log("Error")
+    }
     test2() 
+    
 }
 // функция для удаления элемента в таблице из бд
 async function delFunc(pars){
+    try { 
     id = parseInt(pars.del_id)
     const name = await db.query(`DELETE FROM startaps WHERE id='${id}'`)
     test2() 
+    } catch(error) {
+        io.on('connection', (socket)=>{
+            socket.emit('Error', "Ошибка 002");
+        })
+        console.log("Error")
+    }
 }
 
 // функция для скрытия элемента из сайта
 async function hideFunc(pars){
+    try{
     id = parseInt(pars.hide_id)
     const name = await db.query(`UPDATE startaps SET open = 'false' WHERE id='${id}'`)
-    test2() 
+    test2()
+    } catch(error) {
+        io.on('connection', (socket)=>{
+            socket.emit('Error', "Ошибка 002");
+        })
+        console.log("Error")
+    } 
 }  
 // функция для открытия элемента на сайте
 async function openFunc(pars){
+    try{
     id = parseInt(pars.open_id)
     const name = await db.query(`UPDATE startaps SET open = 'true' WHERE id='${id}'`)
-    test2() 
+    test2()
+    } catch(error) {
+        io.on('connection', (socket)=>{
+            socket.emit('Error', "Ошибка 002");
+        })
+        console.log("Error")
+    } 
 }  
 // функция для редактирования элемента в таблице из бд
 async function redactFunc(pars){
+    try{
     id = parseInt(pars.id)
     
     if(Object.keys( pars ).length-2 == 1){
@@ -139,6 +205,8 @@ async function redactFunc(pars){
                 log = 'crokVip';
             } else if (log=="price"){
                 log = 'price';
+            } else if (log=="url_str"){
+                log = 'url';
             }
             var str = (`UPDATE startaps SET ${log}  = '${pars[property]}' WHERE id='${id}'`)
             
@@ -165,6 +233,8 @@ async function redactFunc(pars){
                 log = 'crokVip';
             } else if (log=="price"){
                 log = 'price';
+            } else if (log=="url_str"){
+                log = 'url';
             } else{
                 continue
             }  
@@ -181,6 +251,12 @@ async function redactFunc(pars){
         test2()
     } else{
         Console.log('Error')
+    }
+    } catch(error) {
+        io.on('connection', (socket)=>{
+            socket.emit('Error', "Ошибка 002");
+        })
+        console.log("Error")
     }
     console.log(strMain)
     

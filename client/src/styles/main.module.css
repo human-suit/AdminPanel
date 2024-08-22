@@ -83,7 +83,7 @@
     width: 400px;
 }
 .right{
-    padding-left: 50px;
+    padding-left: 450px;
 }
 .raz{
     display: grid;
@@ -282,13 +282,17 @@
 }
 
 
-
+.wrap{
+    position: relative;
+}
 .regres{
+    left: 0;
+    position: absolute;
     border-radius: 20px;
     text-align: center;
     margin-top: 15px;
     background-color: white;
-    width: 500px;
+    width: 380px;
     height: 500px;
 }
 
@@ -357,17 +361,24 @@
     left: 0;
 }
 .popup__add{
-    margin-top: 40px;
+    margin-top: 20px;
+    background: #45459D;
+    
+    border-radius: 10px;
+    padding: 10px;
+    
+
 }
 .popup__add a{
-    border: 1px solid black;
-    padding: 10px;
-    font-size: 40px;
+    padding: 15px;
+    font-size: 28px;
     text-decoration: none;
-    color: black;
+    color: white;
+    font-family:'Open Sans';
 }
-.popup__add a:hover{
-    color: rebeccapurple;
+.popup__add:hover{
+    cursor: pointer;
+    background-color: #3a3a89;
 }
 
 
@@ -413,7 +424,12 @@
 .popup__title2{
     font-size: 40px;
 }
-.popup__text2{}
+.popup__text2{
+    margin: 15px 0px;
+}
+.popup__text2 input{
+    font-size: 32px;
+}
 .popup__area2{
     position: absolute;
     width: 100%;
@@ -466,7 +482,12 @@
 .popup__title3{
     font-size: 40px;
 }
-.popup__text3{}
+.popup__text3{
+    margin: 15px 0px;
+}
+.popup__text3 input{
+    font-size: 32px;
+}
 .popup__area3{
     position: absolute;
     width: 100%;
@@ -519,7 +540,12 @@
 .popup__title4{
     font-size: 40px;
 }
-.popup__text4{}
+.popup__text4{
+    margin: 15px 0px;
+}
+.popup__text4 input{
+    font-size: 32px;
+}
 .popup__area4{
     position: absolute;
     width: 100%;
@@ -527,6 +553,140 @@
     top: 0;
     left: 0;
 }
+
+
+.spis{
+    padding: 30px;
+    margin-top: 15px;
+    width: 1050px;
+    display: flex;
+    overflow: hidden;
+    overflow-x: auto;
+    border-radius: 20px;
+    box-shadow: 6px 0px 38px -3px rgba(34, 60, 80, 0.2) inset;
+}
+
+.mes{
+    display: flex;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+.lef{
+    text-align: left;
+    width: 300px;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #d2d7f566;
+    border-top: 1px solid #6050ec;
+}
+
+.pep{
+    margin-top: 30px;
+    font-size: 21px;
+    font-family: "Open Sans";
+    width: 680px;
+    height: 60px;
+    color: #6E7880;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.hus{
+    height: 60px;
+    -webkit-line-clamp: 3; /* Число отображаемых строк */
+    display: -webkit-box; /* Включаем флексбоксы */
+    -webkit-box-orient: vertical; /* Вертикальная ориентация */
+    overflow: hidden;
+    
+    
+    text-overflow: ellipsis;
+    font-family: "Montserrat";
+    padding: 0;
+    margin: 0;
+    font-size: 36px;
+    color: #000000;
+}
+.button{
+    margin-top: 30px;
+    background: #45459D;
+    color: #FFFFFF;
+    border: 0;
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px 0px;
+    font-size: 21px;
+    font-family: "Open Sans";
+}
+.rig{
+    text-align: center;
+    margin: 0px 20px;
+    border-radius: 20px;
+    padding: 10px;
+    background-size: cover;
+    background-image: url("../images/send.jpg");
+    background-repeat: no-repeat;
+    
+    z-index: -10;
+}
+.gree{
+    z-index: 10;
+    color: #000000;
+    padding: 10px;
+    width: 350px;
+    border-radius: 20px;
+    background: #FFFFFF66;
+}
+.pereh{
+    padding: 0px 10px;
+}
+.flex{
+    display: flex;
+}
+.top{
+    margin: 30px 0px;
+}
+.bu{
+    padding: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #2D4EF8;
+    border: 0px;
+    border-radius: 10px;
+    transition: 1s;
+    
+}
+.per{
+    padding: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #2D4EF8;
+    border: 0px;
+    border-radius: 10px;
+    transition: 1s;
+    border-color: rgba(159, 164, 168, 0.8);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6);
+    outline: 0 none;
+}
+.lec{
+    border: 0px;
+    color: #6E7880;
+    font-size: 90px;
+    background: #ECF7FD;
+    transition: 1s;
+}
+.lec:hover, .lec:focus{
+    color: rgba(82, 168, 236, 0.8);
+    font-size: 38;
+}
+.button:hover{
+    cursor: pointer;
+}
+#toc{
+    margin-right: 20px;
+}
+
+
+
 
 
 .popup5{
@@ -575,6 +735,7 @@
     margin: 10px;
     height: 40px;
     padding: 5px;
+    font-size: 22px;
 }
 .popup__but5 button{
     height: 40px;
@@ -609,7 +770,38 @@
 
 
 
+.popup__col_me{
+    text-align: center;
+    right: 10px;
+    bottom: 50px;
+    position: fixed;
+    width: 420px;
+    font-size: 13px;
+    padding: 8px;
+    color: white;
+    background-color: #8AB32D;
+}
+.popup__col_me h1 a{
+    color: black;
+    text-decoration: none;
+}
 
+.dragon{
+    position: absolute;
+    transform: rotate(45deg);
+    width: 400px;
+    height: 400px;
+    background-image: url("../images/1.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.title{
+    font-size: 28px;
+    font-family: 'Time New Ruman';
+}
+input{
+    font-size: 22px;
+}
 
 
 @media (max-width:1381px) {

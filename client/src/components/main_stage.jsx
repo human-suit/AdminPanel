@@ -5,7 +5,9 @@ import {Link} from 'react-router-dom'
 
 import io from 'socket.io-client'
 
-import Bloks_startap from './bloks_startap'
+const socket = io.connect('http://localhost:5000')
+
+import Bloks from './bloks_startap'
 
 // import header from './'
 
@@ -18,19 +20,18 @@ const FIELDS = {
     Price: "price",
     Del_id: "del_id",
     Hide_id: "hide_id",
+    Url_str: "url_str",
     Open_id: "open_id"
 }
 
 const Main = () =>{
     
-    const { Name_title, Description, Name_treb, Name_komp, Sroki, Price, Del_id, Hide_id, Open_id } = FIELDS
+    const { Name_title, Description, Name_treb, Name_komp, Sroki, Price, Del_id, Hide_id, Url_str, Open_id } = FIELDS
     const { search } = useLocation()
-    const [values, setValues] = useState({[Name_title]: "",[Description]: "",[Name_treb]: "",[Name_komp]: "",[Sroki]: "",[Price]: "", [Del_id]: "", [Hide_id]: "", [Open_id]: ""});
+    const [values, setValues] = useState({[Name_title]: "",[Description]: "",[Name_treb]: "",[Name_komp]: "",[Sroki]: "",[Price]: "", [Del_id]: "", [Hide_id]: "", [Url_str]: "", [Open_id]: ""});
     const [val, setVal] = useState("")
     
     const [params, setParams] = useState("")
-
-    const socket = io.connect('http://localhost:5000')
 
     const handleChange = ({ target: {value, }}) =>{
         setValues({...values, [Name_title]: value})
@@ -59,6 +60,9 @@ const Main = () =>{
     const handleChange9 = ({ target: {value, }}) =>{
         setValues({...values, [Open_id]: value})
     }
+    const handleChange10 = ({ target: {value, }}) =>{
+        setValues({...values, [Url_str]: value})
+    }
 
 
     const addStart = () =>{
@@ -78,17 +82,24 @@ const Main = () =>{
         location.reload();
     }
     
+    useEffect(()=> {
 
+        socket.on('error', (data) => {  
+            alert(data)
+         });
+
+
+    }, [])
     
     
     
     return (
-        <div>
+        <div className={styles.wrap}>
             <div className={styles.container}>
                 <div className={styles.flex}>
                 <div className={styles.regres}>
                     <div>
-                        <h1>Панель Админиcтратора</h1>
+                        <h1>Панель</h1>
                     </div>
                     <form action="">
                         <div>
@@ -122,13 +133,17 @@ const Main = () =>{
                             </div>
                         </div>
                     </form>
-                    
+                    <div>
+                        <h1>Скоро будет реклама</h1>
+                    </div>
+                    <div className={styles.dragon}>
+                    </div>
                 </div>
                 <div>
                     <div className={styles.right}>
                         <div>
-                            <Bloks_startap value={val}  >
-                            </Bloks_startap>
+                            <Bloks value={val}  >
+                            </Bloks>
                         </div>
                     </div>
                     
@@ -151,6 +166,7 @@ const Main = () =>{
                                 <input  type="text" value={values[Name_komp]} onChange={handleChange4} autoComplete="off" name="name_komp" placeholder="Наименовании компании" required />
                                 <input  type="number" value={values[Sroki]} onChange={handleChange5} autoComplete="off" name="sroki" placeholder="Срок выполнения" required />
                                 <input  type="number" value={values[Price]} onChange={handleChange6} autoComplete="off" name="price" placeholder="Стоимость" required />
+                                <input  type="text" value={values[Url_str]} onChange={handleChange10} autoComplete="off" name="url_str" placeholder="Ссылка" required />
                             </div>
                             <div className={styles.popup__but}>
                                 <button 
@@ -233,6 +249,9 @@ const Main = () =>{
                         </div>
                     </div>
                 </div>
+            </div>
+            <div id="colme" className={styles.popup__col_me}>
+                <h1>Проблемы! Звони - <a href="tel:+79964039138"></a>89964039138</h1>
             </div>
         </div>
      )

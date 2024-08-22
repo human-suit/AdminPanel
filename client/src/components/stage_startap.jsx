@@ -62,7 +62,7 @@ const Start = () =>{
     
     return (    asyncData ? 
         
-        <div className={styles.spis}>
+        <div className={styles.wrappers}>
         {date.map((post, index) => (
         <div key={index}>
             <div className={styles.container}>
