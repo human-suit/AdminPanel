@@ -1,8 +1,35 @@
 // подключение модулей
 // Создание сервера
 const express = require('express')
+
 const http = require('http')
 const { Server } = require('socket.io')
+
+
+const {Pool} = require('pg')
+const pool = new Pool()
+
+const queryTEST = {
+    name: 'fetch-user',
+    text: 'SELECT * FROM public.startaps WHERE id = $1 values($1)',
+    values: [],
+}
+const querySelect = {
+    text: 'SELECT id FROM public.startaps ORDER BY id ASC',
+    values: [],
+}
+const queryAllSelect = {
+    text: 'SELECT * FROM public.startaps ORDER BY id ASC',
+    values: [],
+}
+const queryAdd = {
+    text: 'INSERT INTO startaps (id, namestart, opisanie, trebovaniya, nameKomp, statusData, crokVip, price, url, open, age) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)'
+}
+// text: 'SELECT $1::text as first_name, $2::text as last_name',
+// values: ['Brian', 'Carlson'],
+// const text = 'INSERT INTO users(name, email) VALUES($1, $2) RETURNING *'
+// const values = ['brianc', 'brian.m.carlson@gmail.com']
+// // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
 
 const cors = require('cors')
 const app = express();
@@ -32,38 +59,9 @@ stat = {pro:[]}
 
 const index = 1
 
-// Тестовая функция для получение всех элементов из бд по определенному id
-// [{name: []}, {namestart:[]}, {opis:[]}, {price:[]}, {crokvip:[]},{statusdata:[]},{trebov:[],}]
-
-// async function test(req, res){
-   
-//     const name = await db.query(`SELECT * FROM public.startaps WHERE id = ${index}`)
-//     res = name.rows
-//     res.forEach(function(ex) {
-
-//         for (var i = 0; i < stat.length; i++) {
-//             delete obj[stat[i]];
-//         }
-
-//         var data = {id: [],name: [], namestart:[], opis:[], price:[], crokvip:[],statusdata:[],trebov:[], url: []}
-//         data.id.push(ex.id)
-//         data.name.push(ex.namekomp)
-//         data.namestart.push(ex.namestart)
-//         data.opis.push(ex.opisanie)
-//         data.price.push(ex.price)
-//         data.crokvip.push(ex.crokvip)
-//         data.statusdata.push(ex.statusdata)
-//         data.trebov.push(ex.trebovaniya)
-//         stas.pro.push(data)
-//         data = {}
-//         console.log(stas)
-//         console.log("aaaa");  
-//     });
-// }
-
 // функция для получение всех элементов из бд отсортерованые в порядке возрастания
 async function test2(req, res){
-    const name = await db.query('SELECT * FROM public.startaps ORDER BY id ASC ')
+    const name = await db.query(queryAllSelect)
     res = name.rows
     stat = {pro:[]}
     // console.log(res)
@@ -89,6 +87,7 @@ async function test2(req, res){
     
 }
 
+
 // функция для добавления элемента в таблицу из бд
 async function addFunc(pars){
     
@@ -96,19 +95,20 @@ async function addFunc(pars){
     description = pars.description
     name_treb = pars.name_treb
     name_komp = pars.name_komp
-    sroki = parseInt(pars.sroki)
-    price = parseInt(pars.price)
+    sroki = String(pars.sroki)
+    price = String(pars.price)
     url_str = pars.url_str
     // console.log(sroki)
+    let kol = 1
     try {
-    let name2 = await db.query('SELECT id FROM public.startaps ORDER BY id ASC ')
+    let name2 = await db.query(querySelect)
     res = name2.rows
     let mas = []
     res.forEach(function(ex) {
         mas.push(ex.id)
     });
 
-    kol = 1
+    
     let coun = mas.length;
     for (let i = 0; i < coun; i++){
     for (let value of mas){
@@ -121,7 +121,7 @@ async function addFunc(pars){
         }
     }
     }
-
+    
     } catch(error) {
 
         // если нет ошибок игнорируеться
@@ -131,7 +131,10 @@ async function addFunc(pars){
         console.log("Error")
     }   
     try { 
-        const name = await db.query(`INSERT INTO startaps (id, namestart, opisanie, trebovaniya, nameKomp, statusData, crokVip, price, url, open) values('${kol}', '${name_title}', '${description}', '${name_treb}', '${name_komp}', '07.08.2024-2025', '${sroki}', '${price}', '${url_str}', 'true')`)
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //id, namestart, opisanie, trebovaniya, nameKomp, statusData, crokVip, price, url, open
+        let values = [kol,name_title,description,name_treb,name_komp,'07.08.2024-2025',sroki,price,url_str,true,'18+']
+        const name = await db.query(queryAdd, values)
     } catch(error) {
 
         // если нет ошибок игнорируеться
@@ -139,30 +142,40 @@ async function addFunc(pars){
             // socket.emit('Error', error.message);
             socket.emit('Error', "Ошибка 001 - запоните все поля!");
         })
-        console.log("Error")
+        console.log(error)
     }
     test2() 
     
 }
+
+
+
+
+
 // функция для удаления элемента в таблице из бд
 async function delFunc(pars){
-    try { 
-    id = parseInt(pars.del_id)
-    const name = await db.query(`DELETE FROM startaps WHERE id='${id}'`)
-    test2() 
+    try{
+        id = parseInt(pars.del_id)
+        text = "DELETE FROM startaps WHERE id="
+        const name = await db.query(`${text}'${id}'`)
+        test2()
     } catch(error) {
         io.on('connection', (socket)=>{
             socket.emit('Error', "Ошибка 002");
         })
         console.log("Error")
-    }
+    } 
+    
+    
+    
 }
 
 // функция для скрытия элемента из сайта
 async function hideFunc(pars){
     try{
     id = parseInt(pars.hide_id)
-    const name = await db.query(`UPDATE startaps SET open = 'false' WHERE id='${id}'`)
+    text = "UPDATE startaps SET open = 'false' WHERE id="
+    const name = await db.query(`${text}'${id}'`)
     test2()
     } catch(error) {
         io.on('connection', (socket)=>{
@@ -175,7 +188,8 @@ async function hideFunc(pars){
 async function openFunc(pars){
     try{
     id = parseInt(pars.open_id)
-    const name = await db.query(`UPDATE startaps SET open = 'true' WHERE id='${id}'`)
+    text = "UPDATE startaps SET open = 'true' WHERE id="
+    const name = await db.query(`${text}'${id}'`)
     test2()
     } catch(error) {
         io.on('connection', (socket)=>{

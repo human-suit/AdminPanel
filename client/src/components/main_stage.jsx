@@ -75,16 +75,15 @@ const Main = () =>{
             setFormValidId(true)
         }
         if(delError){
-            setDelError(false)
+            setFormValidDel(false)
         } else{
-            setDelError(true)
+            setFormValidDel(true)
         }
         socket.on('error', (data) => {  
             alert(data)
          });
-
-
-    }, [nameError, descriptionError, trebError, kompError, srokiError, priceError, delError, hideError, urlError, idError])
+         
+    }, [nameError, descriptionError, trebError, kompError, srokiError, priceError, hideError, urlError, idError, delError])
 
 
 
