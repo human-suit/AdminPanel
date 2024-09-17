@@ -91,7 +91,7 @@ const Main = () =>{
 
     const handleChange = ({ target: {value, }}) =>{
         setValues({...values, [Name_title]: value})
-        if(values[Name_title].length <= 1){
+        if(values[Name_title].length < 0){
             setNameError("Некоректные данные")
         } else {
             setNameError("")
@@ -107,7 +107,7 @@ const Main = () =>{
     }
     const handleChange3 = ({ target: {value, }}) =>{
         setValues({...values, [Name_treb]: value})
-        if(values[Name_treb].length <= 1){
+        if(values[Name_treb].length < 0){
             setTrebError("Некоректные данные")
         } else {
             setTrebError("")
@@ -115,7 +115,7 @@ const Main = () =>{
     }
     const handleChange4 = ({ target: {value, }}) =>{
         setValues({...values, [Name_komp]: value})
-        if(values[Name_komp].length <= 1){
+        if(values[Name_komp].length < 0){
             setKompError("Некоректные данные")
         } else {
             setKompError("")
@@ -129,7 +129,7 @@ const Main = () =>{
             alert('Неккоректное значения поля (числовое)')
             setSrokiError("Некоректные данные")
          } else{
-            if(values[Sroki].length <= 0){
+            if(values[Sroki].length < 0){
                 setSrokiError("Некоректные данные")
             } else {
                 setSrokiError("")
@@ -145,7 +145,7 @@ const Main = () =>{
             alert('Неккоректное значения поля (числовое)')
             setPriceError("Некоректные данные")
          } else{
-            if(values[Price].length <= 0){
+            if(values[Price].length < 0){
                 setPriceError("Некоректные данные")
             } else {
                 setPriceError("")
@@ -161,7 +161,7 @@ const Main = () =>{
             alert('Неккоректное значения поля (числовое)')
             setDelError("Некоректные данные")
          } else{
-            if(values[Del_id].length <= 0){
+            if(values[Del_id].length < 0){
                 setDelError("Некоректные данные")
             } else {
                 setDelError("")
@@ -177,7 +177,7 @@ const Main = () =>{
             alert('Неккоректное значения поля (числовое)')
             setHideError("Некоректные данные")
          } else{
-            if(values[Hide_id].length <= 0){
+            if(values[Hide_id].length < 0){
                 setHideError("Некоректные данные")
             } else {
                 setHideError("")
@@ -193,7 +193,7 @@ const Main = () =>{
             alert('Неккоректное значения поля (числовое)')
             setIdError("Некоректные данные")
          } else{
-            if(values[Open_id].length <= 0){
+            if(values[Open_id].length < 0){
                 setIdError("Некоректные данные")
             } else {
                 setIdError("")
@@ -336,20 +336,40 @@ const Main = () =>{
                         </div>
                         
                             <div className={styles.popup__text}>
-                                {(nameDirty && nameError) && <div style={{color:"red"}}>{nameError}</div>}
-                                <input onBlur={e => blurHandler(e)}  type="text" value={values[Name_title]} onChange={handleChange} autoComplete="off" name="name_title" placeholder="Наименование" required />
-                                {(descriptionDirty && descriptionError) && <div style={{color:"red"}}>{descriptionError}</div>}
-                                <input onBlur={e => blurHandler(e)}  type="text" value={values[Description]} onChange={handleChange2} autoComplete="off" name="description" placeholder="Описание" required />
-                                {(trebDirty && trebError) && <div style={{color:"red"}}>{trebError}</div>}
-                                <input onBlur={e => blurHandler(e)}  type="text" value={values[Name_treb]} onChange={handleChange3} autoComplete="off" name="name_treb" placeholder="Требования" required />
-                                {(kompDirty && kompError) && <div style={{color:"red"}}>{kompError}</div>}
-                                <input onBlur={e => blurHandler(e)}  type="text" value={values[Name_komp]} onChange={handleChange4} autoComplete="off" name="name_komp" placeholder="Наименовании компании" required />
-                                {(srokiDirty && srokiError) && <div style={{color:"red"}}>{srokiError}</div>}
-                                <input onBlur={e => blurHandler(e)}  type="number" value={values[Sroki]} onChange={handleChange5} autoComplete="off" name="sroki" placeholder="Срок выполнения" required />
-                                {(priceDirty && priceError) && <div style={{color:"red"}}>{priceError}</div>}
-                                <input onBlur={e => blurHandler(e)}  type="number" value={values[Price]} onChange={handleChange6} autoComplete="off" name="price" placeholder="Стоимость" required />
-                                {(urlDirty && urlError) && <div style={{color:"red"}}>{urlError}</div>}
-                                <input onBlur={e => blurHandler(e)}  type="text" value={values[Url_str]} onChange={handleChange10} autoComplete="off" name="url_str" placeholder="Ссылка" required />
+                                <div className={styles.flex}>
+                                    <div>
+                                        <input onBlur={e => blurHandler(e)}  type="text" value={values[Name_title]} onChange={handleChange} autoComplete="off" name="name_title" placeholder="Наименование" required />
+                                        {(nameDirty && nameError) && <div style={{color:"red"}}>{nameError}</div>}
+                                    </div>
+                                    <div>
+                                        <input onBlur={e => blurHandler(e)}  type="text" value={values[Description]} onChange={handleChange2} autoComplete="off" name="description" placeholder="Описание" required />
+                                        {(descriptionDirty && descriptionError) && <div style={{color:"red"}}>{descriptionError}</div>}
+                                    </div>
+                                </div>
+                                <div className={styles.flex}>
+                                    <div>
+                                        <input onBlur={e => blurHandler(e)}  type="text" value={values[Name_treb]} onChange={handleChange3} autoComplete="off" name="name_treb" placeholder="Требования" required />
+                                        {(trebDirty && trebError) && <div style={{color:"red"}}>{trebError}</div>}
+                                    </div>
+                                    <div>
+                                        <input onBlur={e => blurHandler(e)}  type="text" value={values[Name_komp]} onChange={handleChange4} autoComplete="off" name="name_komp" placeholder="Наименовании компании" required />
+                                        {(kompDirty && kompError) && <div style={{color:"red"}}>{kompError}</div>}
+                                    </div>
+                                </div>
+                                <div className={styles.flex}>
+                                    <div>
+                                        <input onBlur={e => blurHandler(e)}  type="number" value={values[Sroki]} onChange={handleChange5} autoComplete="off" name="sroki" placeholder="Срок выполнения" required />
+                                        {(srokiDirty && srokiError) && <div style={{color:"red"}}>{srokiError}</div>}
+                                    </div>
+                                    <div>
+                                        <input onBlur={e => blurHandler(e)}  type="number" value={values[Price]} onChange={handleChange6} autoComplete="off" name="price" placeholder="Стоимость" required />
+                                        {(priceDirty && priceError) && <div style={{color:"red"}}>{priceError}</div>}
+                                    </div>
+                                </div>
+                                <div>
+                                    <input onBlur={e => blurHandler(e)}  type="text" value={values[Url_str]} onChange={handleChange10} autoComplete="off" name="url_str" placeholder="Ссылка" required />
+                                    {(urlDirty && urlError) && <div style={{color:"red"}}>{urlError}</div>}
+                                </div>
                             </div>
                             <div className={styles.popup__but}>
                                 <button 
